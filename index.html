@@ -18,6 +18,8 @@
             --text-secondary: #94a3b8;
             --accent-main: #3b82f6;
             --accent-hover: #2563eb;
+            --telegram-blue: #2AABEE;
+            --telegram-hover: #229ED9;
             --success: #10b981;
         }
 
@@ -113,14 +115,26 @@
             border: 1px solid transparent;
         }
 
-        .btn-primary {
-            background-color: var(--accent-main);
+        .btn-telegram {
+            background-color: var(--telegram-blue);
             color: white;
-            box-shadow: 0 4px 15px rgba(59, 130, 246, 0.2);
+            box-shadow: 0 4px 15px rgba(42, 171, 238, 0.2);
+        }
+
+        .btn-telegram:hover {
+            background-color: var(--telegram-hover);
+            transform: translateY(-2px);
+        }
+
+        .btn-primary {
+            background-color: var(--bg-surface);
+            color: white;
+            border-color: #2d313a;
         }
 
         .btn-primary:hover {
-            background-color: var(--accent-hover);
+            background-color: var(--bg-surface-hover);
+            border-color: #4b5563;
             transform: translateY(-2px);
         }
 
@@ -147,18 +161,18 @@
             height: 80px;
             border-radius: 20px;
             margin: 0 auto 24px;
-            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3); /* Нейтральная тень */
-            overflow: hidden; /* Критически важно: обрезает картинку по скругленным углам */
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
+            overflow: hidden;
             display: flex;
             align-items: center;
             justify-content: center;
-            background-color: var(--bg-surface); /* Фон на случай если картинка прозрачная (PNG) */
+            background-color: var(--bg-surface);
         }
 
         .logo-container img {
             width: 100%;
             height: 100%;
-            object-fit: cover; /* Заполняет весь блок без искажения пропорций */
+            object-fit: cover;
             display: block;
         }
     </style>
@@ -186,8 +200,12 @@
         </div>
 
         <div class="actions">
-            <a href="https://webui.charmproject.org" class="btn btn-primary">
-                🚀 Открыть личный кабинет
+            <a href="https://t.me/charmproject_bot/webui" id="tg-btn" class="btn btn-telegram">
+                ✈️ Войти через Telegram
+            </a>
+
+            <a href="https://webui.charmproject.org" id="webui-btn" class="btn btn-primary">
+                🌐 Войти через сайт (Его не заблокируют)
             </a>
             
             <a href="https://teletype.in/@charmproject_contact/allguides" class="btn btn-secondary" target="_blank">
@@ -209,14 +227,22 @@
     <script>
         document.addEventListener("DOMContentLoaded", function() {
             const urlParams = new URLSearchParams(window.location.search);
+            const utmSource = urlParams.get('utm_source');
             
             if (urlParams.toString()) {
-                const mainBtn = document.querySelector('.btn-primary');
-                
-                if (mainBtn) {
-                    const sep = mainBtn.href.includes('?') ? '&' : '?';
-                    
-                    mainBtn.href = mainBtn.href + sep + urlParams.toString();
+                const webuiBtn = document.getElementById('webui-btn');
+                if (webuiBtn) {
+                    const sep = webuiBtn.href.includes('?') ? '&' : '?';
+                    webuiBtn.href = webuiBtn.href + sep + urlParams.toString();
+                }
+            }
+
+            const tgBtn = document.getElementById('tg-btn');
+            if (tgBtn) {
+                if (utmSource) {
+                    tgBtn.href = "https://t.me/charmproject_bot/webui?startapp=utm_source_" + utmSource;
+                } else {
+                    tgBtn.href = "https://t.me/charmproject_bot/webui";
                 }
             }
         });
