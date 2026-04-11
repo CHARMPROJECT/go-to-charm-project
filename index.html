@@ -47,21 +47,6 @@
         }
 
         /* Hero Section */
-        .logo-container {
-            width: 80px;
-            height: 80px;
-            background: linear-gradient(135deg, var(--accent-main), var(--success));
-            border-radius: 20px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            margin: 0 auto 24px;
-            font-size: 32px;
-            font-weight: 700;
-            color: white;
-            box-shadow: 0 10px 25px rgba(59, 130, 246, 0.3);
-        }
-
         h1 {
             font-size: 32px;
             font-weight: 700;
@@ -220,6 +205,22 @@
     </div>
 
     <script defer src="https://go.charmproject.org/script.js" data-website-id="aec7840a-f8af-45f4-99e9-78d1adebe1da"></script>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            const urlParams = new URLSearchParams(window.location.search);
+            
+            if (urlParams.toString()) {
+                const mainBtn = document.querySelector('.btn-primary');
+                
+                if (mainBtn) {
+                    const sep = mainBtn.href.includes('?') ? '&' : '?';
+                    
+                    mainBtn.href = mainBtn.href + sep + urlParams.toString();
+                }
+            }
+        });
+    </script>
 
 </body>
 </html>
